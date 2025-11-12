@@ -6,7 +6,7 @@ set -e
 mkdir -p build/classes
 LWJGL_CP="."
 if [ -d "lib/lwjgl" ]; then
-  LWJGL_CP=".:lib/lwjgl/*"
+  LWJGL_CP=".;lib/lwjgl/lwjgl-3.3.6.jar;lib/lwjgl/lwjgl-glfw-3.3.6.jar;lib/lwjgl/lwjgl-opengl-3.3.6.jar"
 fi
 SOURCES=$(find src/main/java -type f -name "*.java")
 javac -d build/classes -cp "$LWJGL_CP" $SOURCES
@@ -14,7 +14,7 @@ javac -d build/classes -cp "$LWJGL_CP" $SOURCES
 LWJGL_DIR="lib/lwjgl"
 CLASSPATH="build/classes"
 if [ -d "$LWJGL_DIR" ]; then
-  CLASSPATH="$CLASSPATH:$LWJGL_DIR/*"
+  CLASSPATH="$CLASSPATH;$LWJGL_DIR/*"
 fi
 
 # 计算 natives 路径（与 download_lwjgl.sh 保持一致）
