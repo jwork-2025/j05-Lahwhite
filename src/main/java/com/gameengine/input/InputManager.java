@@ -101,6 +101,7 @@ public class InputManager {
         return !pressedKeys.isEmpty();
     }
 
+    // 获取刚刚按下的按键快照
     public java.util.Set<Integer> getJustPressedKeysSnapshot() {
         return new java.util.HashSet<>(justPressedKeys);
     }

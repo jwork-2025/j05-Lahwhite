@@ -11,6 +11,7 @@ import java.util.List;
 public class FileRecordingStorage implements RecordingStorage {
     private BufferedWriter writer;
 
+    // 打开写入器
     @Override
     public void openWriter(String path) throws IOException {
         Path p = Paths.get(path);
@@ -18,6 +19,7 @@ public class FileRecordingStorage implements RecordingStorage {
         writer = Files.newBufferedWriter(p);
     }
 
+    // 写入一行数据
     @Override
     public void writeLine(String line) throws IOException {
         if (writer == null) throw new IllegalStateException("writer not opened");
@@ -25,6 +27,7 @@ public class FileRecordingStorage implements RecordingStorage {
         writer.newLine();
     }
 
+    // 关闭写入器
     @Override
     public void closeWriter() {
         if (writer != null) {
@@ -34,6 +37,7 @@ public class FileRecordingStorage implements RecordingStorage {
         }
     }
 
+    // 读取文件中的所有行
     @Override
     public Iterable<String> readLines(String path) throws IOException {
         List<String> lines = new ArrayList<>();
@@ -46,6 +50,7 @@ public class FileRecordingStorage implements RecordingStorage {
         return lines;
     }
 
+    // 列出所有录制文件
     @Override
     public List<File> listRecordings() {
         File dir = new File("recordings");

@@ -27,6 +27,7 @@ public class Scene {
         initialized = true;
     }
     
+    // 添加、移除并更新每一个启用的游戏对象
     public void update(float deltaTime) {
         for (GameObject obj : objectsToAdd) {
             gameObjects.add(obj);
@@ -52,6 +53,7 @@ public class Scene {
         }
     }
     
+    // 渲染每一个启用的游戏对象
     public void render() {
         for (GameObject obj : gameObjects) {
             if (obj.isActive()) {
@@ -70,6 +72,7 @@ public class Scene {
             .collect(Collectors.toList());
     }
     
+    // 获取场景中所有具有指定组件类型的组件实例
     public <T extends Component<T>> List<T> getComponents(Class<T> componentType) {
         return findGameObjectsByComponent(componentType).stream()
             .map(obj -> obj.getComponent(componentType))
@@ -77,6 +80,7 @@ public class Scene {
             .collect(Collectors.toList());
     }
     
+    // 清除所有对象包括待添加和待移除的对象
     public void clear() {
         gameObjects.clear();
         objectsToAdd.clear();
@@ -87,6 +91,7 @@ public class Scene {
         return name;
     }
     
+    // 默认返回游戏场景中的所有游戏对象
     public List<GameObject> getGameObjects() {
         return new ArrayList<>(gameObjects);
     }

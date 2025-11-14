@@ -3,6 +3,7 @@ package com.gameengine.recording;
 import java.util.ArrayList;
 import java.util.List;
 
+// JSON 工具类，用于解析录制文件中的 JSON 字符串
 public final class RecordingJson {
     private RecordingJson() {}
 
