@@ -1,5 +1,6 @@
 package com.gameengine.graphics;
 
+// 定义渲染器的标准行为（帧管理、图形绘制、窗口控制等），统一渲染接口。
 public interface IRenderer {
     void beginFrame();
     void endFrame();

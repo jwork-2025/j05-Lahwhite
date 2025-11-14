@@ -22,12 +22,12 @@ public class GPURenderer implements IRenderer {
     private int height;
     private String title;
     private InputManager inputManager;
-    private boolean initialized;
+    private boolean initialized;                        // GLFW 窗口句柄（long 类型，底层窗口标识）
     private long window;
-    private Map<Character, Integer> charTextures;
+    private Map<Character, Integer> charTextures;       // 字符纹理映射，存储字符与 OpenGL 纹理 ID 的对应关系
     private Font font;
     private int fontSize;
-    private boolean texturesPreloaded;
+    private boolean texturesPreloaded;                  // 字符纹理预加载状态标志
     private static final String PRELOAD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~` ";
 
     public GPURenderer(int width, int height, String title) {
@@ -48,23 +48,29 @@ public class GPURenderer implements IRenderer {
     private void initialize() {
         try {
             System.setProperty("java.awt.headless", "true");
+
+            // 1. 配置 GLFW 错误回调（打印错误到控制台）
             GLFWErrorCallback.createPrint(System.err).set();
             
+            // 2. 初始化 GLFW 库
             if (!GLFW.glfwInit()) {
                 throw new RuntimeException("无法初始化GLFW");
             }
             
+            // 3. 配置窗口属性（可见性、可调整大小、OpenGL版本）
             GLFW.glfwDefaultWindowHints();
             GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_TRUE);
             GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
             GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 2);
             GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 1);
             
+            // 4. 创建窗口（返回窗口句柄）
             window = GLFW.glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL);
             if (window == MemoryUtil.NULL) {
                 throw new RuntimeException("无法创建GLFW窗口");
             }
             
+            // 5. 居中窗口（基于显示器分辨率计算位置）
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 IntBuffer pWidth = stack.mallocInt(1);
                 IntBuffer pHeight = stack.mallocInt(1);
@@ -82,20 +88,24 @@ public class GPURenderer implements IRenderer {
                 }
             }
             
+            // 6. 设置输入回调（键盘、鼠标事件转发到 InputManager）
             setupInput();
             
+            // 7. 绑定 OpenGL 上下文到当前窗口，并初始化 OpenGL 功能
             GLFW.glfwMakeContextCurrent(window);
             GL.createCapabilities();
             GLFW.glfwSwapInterval(1);
             
-            GLFW.glfwShowWindow(window);
+            GLFW.glfwShowWindow(window);        // 显示窗口
             
+            // 8. 配置 OpenGL 渲染状态（2D 渲染必备）
             GL11.glViewport(0, 0, width, height);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glDisable(GL11.GL_DEPTH_TEST);
             GL11.glDisable(GL11.GL_LIGHTING);
             
+            // 9. 验证 OpenGL 上下文并打印信息
             // 再次确保上下文有效后再查询版本
             GLFW.glfwMakeContextCurrent(window);
             String glVersion = GL11.glGetString(GL11.GL_VERSION);
@@ -472,6 +482,7 @@ public class GPURenderer implements IRenderer {
         }
     }
     
+    @SuppressWarnings("unused")
     private void drawThickLine(float x1, float y1, float x2, float y2, float thickness, float r, float g, float b, float a) {
         float dx = x2 - x1;
         float dy = y2 - y1;
