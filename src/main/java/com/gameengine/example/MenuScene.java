@@ -25,8 +25,8 @@ public class MenuScene extends Scene {
     private GameEngine engine;
     private int selectedIndex;
     private MenuOption[] options;
-    private boolean selectionMade;
-    private MenuOption selectedOption;
+    private boolean selectionMade;          // 是否已做出选择
+    private MenuOption selectedOption;      // 选中的菜单项
     private List<String> replayFiles;
     private boolean showReplayInfo;
     private int debugFrames;
@@ -68,6 +68,7 @@ public class MenuScene extends Scene {
     }
     
     private void handleMenuSelection() {
+        // 处理键盘输入（上下箭头和回车键）
         if (inputManager.isKeyJustPressed(38)) {
             selectedIndex = (selectedIndex - 1 + options.length) % options.length;
         } else if (inputManager.isKeyJustPressed(40)) {

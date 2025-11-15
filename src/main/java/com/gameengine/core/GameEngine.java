@@ -191,7 +191,7 @@ public class GameEngine {
         recordingService = null;
     }
     
-    
+    // 以下都是 setters 和 getters
     
     public IRenderer getRenderer() {
         return renderer;

@@ -6,6 +6,12 @@ import com.gameengine.core.GameObject;
 import com.gameengine.graphics.IRenderer;
 import com.gameengine.math.Vector2;
 
+
+/*
+ * 游戏中用于创建实体视觉表现的工厂类，
+ * 主要负责统一构建玩家（Player）和 AI（AIPlayer）的外观预制体，
+ * 确保游戏运行和回放场景中使用一致的实体外观。
+ */
 public final class EntityFactory {
     private EntityFactory() {}
 
